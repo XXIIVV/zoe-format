@@ -1,2 +1,4 @@
-# zoe-format
+# Zoe Format
+
 Monochrome picture format
+
