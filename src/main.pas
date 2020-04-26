@@ -182,7 +182,7 @@ program Zoe;
   SetRect(viewer, 60, 60, width * 8 + 15, height + 75);
   bmap.rowBytes := width;
   bmap.baseAddr := Pointer(Longint(contents) + 4);
-  SetRect(clip, 0, 0, 512, 342);
+  SetRect(clip, 0, 0, width * 8, height);
   pic := OpenPicture(clip);
   CopyBits(bmap, thePort^.portBits, bmap.bounds, bmap.bounds, srcCopy, nil);
   ClosePicture;
@@ -204,6 +204,12 @@ program Zoe;
  procedure DoSaveFile;
  begin
   SelectOutputFile;
+ end;
+
+{>>}
+ procedure Redraw;
+ begin
+  Writeln('REDRAW');
  end;
 
 {>>}
@@ -312,6 +318,8 @@ program Zoe;
      if (BitAnd(gTheEvent.modifiers, cmdKey) <> 0) then
       HandleMenuChoice(MenuKey(theChar));
     end;
+   activateEvt: 
+    Redraw;
    updateEvt: 
     begin
      BeginUpdate(WindowPtr(gTheEvent.message));
