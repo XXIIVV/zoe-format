@@ -6,6 +6,7 @@ program Zoe;
   err: OSErr;
   totalRead: Longint;
   pnt: Point;
+  bmap: BitMap;
 
  var { window }
   windowRect: Rect;
@@ -114,6 +115,7 @@ program Zoe;
    prompt: Str255;
    sfTypes: SFTypeList;
  begin
+  Cleanup;
   SFGetFile(pnt, prompt, nil, -1, sfTypes, nil, reply);
   if not reply.good then
    Exit(SelectInputFile);
@@ -157,7 +159,6 @@ program Zoe;
 {>>}
  procedure DrawFile;
   var
-   bmap: BitMap;
    headerPtr: ^Longint;
    header: Longint;
    width, height: Integer;
@@ -185,7 +186,7 @@ program Zoe;
   ClosePicture;
   ShowWindow(window);
   DrawPicture(pic, clip);
-  Cleanup;
+  CloseFile;
  end;
 
 { Window ---------------------------------------- }
@@ -206,7 +207,7 @@ program Zoe;
 {>>}
  procedure Redraw;
  begin
-  Writeln('REDRAW');
+  CopyBits(bmap, thePort^.portBits, bmap.bounds, bmap.bounds, srcCopy, nil);
  end;
 
 {>>}
@@ -286,9 +287,6 @@ program Zoe;
 {>>}
  procedure HandleNull;
  begin
-  GetDateTime(gCurrentTime);
-  if gCurrentTime <> gOldTime then
-   Writeln('something');
  end;
 
 {>>}
