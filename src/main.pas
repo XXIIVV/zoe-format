@@ -4,6 +4,8 @@ program Zoe;
   inputRefNum: Integer;
   outputRefNum: Integer;
   err: OSErr;
+   totalRead: Longint;
+   pnt: Point;
 
  var { window }
   windowRect: Rect;
@@ -109,15 +111,9 @@ program Zoe;
  procedure SelectInputFile;
   var
    reply: SFReply;
-   totalRead: Longint;
-   pnt: Point;
    prompt: Str255;
    sfTypes: SFTypeList;
  begin
-  inputRefNum := -1;
-  totalRead := 0;
-  contents := nil;
-  SetPt(pnt, 0, 0);
   SFGetFile(pnt, prompt, nil, -1, sfTypes, nil, reply);
   if not reply.good then
    Halt;
@@ -362,6 +358,11 @@ program Zoe;
 
 begin
 
+  inputRefNum := -1;
+  totalRead := 0;
+  contents := nil;
+  SetPt(pnt, 0, 0);
+  
  Windowinit;
  MenuBarInit;
  MainLoop;
