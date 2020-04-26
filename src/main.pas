@@ -4,8 +4,8 @@ program Zoe;
   inputRefNum: Integer;
   outputRefNum: Integer;
   err: OSErr;
-   totalRead: Longint;
-   pnt: Point;
+  totalRead: Longint;
+  pnt: Point;
 
  var { window }
   windowRect: Rect;
@@ -116,7 +116,7 @@ program Zoe;
  begin
   SFGetFile(pnt, prompt, nil, -1, sfTypes, nil, reply);
   if not reply.good then
-   Halt;
+   Exit(SelectInputFile);
   err := FSOpen(reply.fName, reply.vRefNum, inputRefNum);
   if err <> 0 then
    begin
@@ -155,7 +155,7 @@ program Zoe;
  end;
 
 {>>}
- procedure DrawFile (contents: Ptr; fileSize: Longint);
+ procedure DrawFile;
   var
    bmap: BitMap;
    headerPtr: ^Longint;
@@ -169,7 +169,8 @@ program Zoe;
   if BitAnd(header, $FFFFFF00) <> $5a4f4500 then
    begin
     WriteLn('Header mismatch');
-    CleanupAndHalt;
+    Cleanup;
+    Exit(DrawFile);
    end;
   width := Integer(BitAnd(header, $000000FF));
   height := (fileSize - 4) div width;
@@ -193,7 +194,7 @@ program Zoe;
  procedure DoOpenFile;
  begin
   SelectInputFile;
-  DrawFile(contents, fileSize);
+  DrawFile;
  end;
 
 {>>}
@@ -358,11 +359,11 @@ program Zoe;
 
 begin
 
-  inputRefNum := -1;
-  totalRead := 0;
-  contents := nil;
-  SetPt(pnt, 0, 0);
-  
+ inputRefNum := -1;
+ totalRead := 0;
+ contents := nil;
+ SetPt(pnt, 0, 0);
+
  Windowinit;
  MenuBarInit;
  MainLoop;
