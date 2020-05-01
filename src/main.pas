@@ -219,7 +219,7 @@ program Zoe;
  begin
   case theItem of
    1: 
-    dummy := NoteAlert(400, nil);
+    dummy := Alert(400, nil);
    otherwise
     begin
      appleMenu := GetMHandle(400);
