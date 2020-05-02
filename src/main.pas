@@ -156,6 +156,17 @@ program Zoe;
   until False;
  end;
 
+
+{>>}
+ procedure UpdateWindowTitle (width, height: Integer);
+  var
+   width_s, height_s: Str255;
+ begin
+  NumToString(width * 8, width_s);
+  NumToString(height, height_s);
+  SetWTitle(window, Concat('Zoe[', width_s, 'x', height_s, ']'));
+ end;
+
 {>>}
  procedure DrawFile;
   var
@@ -175,6 +186,7 @@ program Zoe;
    end;
   width := Integer(BitAnd(header, $000000FF));
   height := (fileSize - 4) div width;
+  UpdateWindowTitle(width, height);
   SizeWindow(window, width * 8, height, true);
   SetRect(bmap.bounds, 0, 0, width * 8, height);
   SetRect(viewer, 60, 60, width * 8 + 15, height + 75);
@@ -364,6 +376,7 @@ begin
 
  Windowinit;
  MenuBarInit;
+
  MainLoop;
 
 end.
