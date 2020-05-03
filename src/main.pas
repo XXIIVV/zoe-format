@@ -332,6 +332,8 @@ program Zoe;
      BeginUpdate(WindowPtr(gTheEvent.message));
      EndUpdate(WindowPtr(gTheEvent.message));
     end;
+   otherwise
+    ;
   end;
  end;
 
